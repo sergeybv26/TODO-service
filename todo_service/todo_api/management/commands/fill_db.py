@@ -1,3 +1,4 @@
+from mimesis import Person
 from django.contrib.auth.models import User
 from django.core.management import BaseCommand
 
@@ -10,6 +11,11 @@ class Command(BaseCommand):
         User.objects.create_superuser('drf', password='geekbrains')
 
         WebUser.objects.all().delete()
-        for num in range(1, 6):
-            WebUser.objects.create(username=f'user-{num}', email=f'user-{num}@mail.ru')
+        person = Person('ru')
+        for num in range(20):
+            WebUser.objects.create(
+                username=person.username(),
+                firstname=person.first_name(),
+                lastname=person.last_name(),
+                email=person.email())
 
