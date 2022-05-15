@@ -1,9 +1,9 @@
-from rest_framework.serializers import HyperlinkedModelSerializer
+from rest_framework.serializers import ModelSerializer
 
 from todo_api.models import WebUser
 
 
-class UserModelSerializer(HyperlinkedModelSerializer):
+class UserModelSerializer(ModelSerializer):
     class Meta:
         model = WebUser
-        fields = ['uid', 'url', 'username', 'firstname', 'lastname', 'email']
+        fields = ['uid', 'username', 'firstname', 'lastname', 'email']
