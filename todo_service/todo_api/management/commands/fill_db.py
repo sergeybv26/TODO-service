@@ -16,5 +16,5 @@ class Command(BaseCommand):
                 firstname=person.first_name(),
                 lastname=person.last_name(),
                 email=person.email(),
-                password=person.password())
+                password='geek_user')
 
