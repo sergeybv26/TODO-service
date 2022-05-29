@@ -6,7 +6,7 @@ from todo_api.serializers import UserModelSerializer
 from todo_work.models import Project, ToDo
 
 
-class ProjectModelSerializer(HyperlinkedModelSerializer):
+class ProjectModelSerializer(ModelSerializer):
     authors = serializers.SlugRelatedField(slug_field='username', many=True, queryset=WebUser.objects.all())
 
     class Meta:
@@ -14,7 +14,7 @@ class ProjectModelSerializer(HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class ToDoModelSerializer(HyperlinkedModelSerializer):
+class ToDoModelSerializer(ModelSerializer):
     project = serializers.SlugRelatedField(slug_field='name', queryset=Project.objects.all())
     author = serializers.SlugRelatedField(slug_field='username', queryset=WebUser.objects.all())
 

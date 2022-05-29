@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import permissions
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.viewsets import ModelViewSet
 
@@ -26,6 +27,7 @@ class ToDoModelViewSet(ModelViewSet):
     queryset = ToDo.objects.all().select_related()
     serializer_class = ToDoModelSerializer
     pagination_class = TodoLimitOffsetPagination
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         project = self.request.query_params.get('project', '')
