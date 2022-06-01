@@ -1,10 +1,11 @@
 from django.test import TestCase
 from mimesis import Person
+from mixer.backend.django import mixer
 from rest_framework import status
-from rest_framework.test import APIClient
+from rest_framework.test import APIClient, APITestCase
 
 from todo_api.models import WebUser
-from todo_work.models import Project
+from todo_work.models import Project, ToDo
 
 
 class TestProjectModelViewSet(TestCase):
@@ -55,3 +56,36 @@ class TestProjectModelViewSet(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         project = Project.objects.get(pk=project.uid)
         self.assertEqual(project.name, 'super_proj')
+
+
+class TestTodoViewSet(APITestCase):
+    def setUp(self) -> None:
+        admin = WebUser.objects.create_superuser('drf', password='geekbrains')
+
+    def test_get_todo(self):
+        response = self.client.get('/api/todo/')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_get_todo_admin(self):
+        response_token = self.client.post('/api-token-auth/', {'username': 'drf', 'password': 'geekbrains'})
+        token_dict = response_token.data
+        token = token_dict.get('token')
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
+
+        response = self.client.get('/api/todo/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_edit_mixer_admin(self):
+        todo = mixer.blend(ToDo)
+        response_token = self.client.post('/api-token-auth/', {'username': 'drf', 'password': 'geekbrains'})
+        token_dict = response_token.data
+        token = token_dict.get('token')
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
+        response = self.client.patch(f'/api/todo/{todo.uid}/', {'text': 'bla-bla-bla'})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        todo = ToDo.objects.get(uid=todo.uid)
+        self.assertEqual(todo.text, 'bla-bla-bla')
