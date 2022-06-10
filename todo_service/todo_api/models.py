@@ -6,10 +6,8 @@ from django.db import models
 
 class WebUser(AbstractUser):
     uid = models.UUIDField(primary_key=True, default=uuid4)
-    # username = models.CharField(max_length=150, unique=True, verbose_name='Логин')
     firstname = models.CharField(max_length=150, blank=True, verbose_name='Имя пользователя')
     lastname = models.CharField(max_length=150, blank=True, verbose_name='Фамилия пользователя')
-    # email = models.EmailField(unique=True, verbose_name='email address')
 
     class Meta:
         verbose_name = 'пользователь'
