@@ -1,7 +1,8 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 
-const TodoItem = ({item}) => {
+const TodoItem = ({item, deleteTodo}) => {
     return (
         <tr>
             <td>
@@ -22,33 +23,39 @@ const TodoItem = ({item}) => {
             <td>
                 {item.isActive}
             </td>
+            <td>
+                <button type='button' className="btn btn-danger" onClick={() => deleteTodo(item.uid)}>Удалить</button>
+            </td>
         </tr>
     )
 }
 
-const TodoList = ({items}) => {
+const TodoList = ({items, deleteTodo}) => {
     return (
-        <table>
-            <th>
-                ID
-            </th>
-            <th>
-                Project name
-            </th>
-            <th>
-                Author
-            </th>
-            <th>
-                Text
-            </th>
-            <th>
-                Created At
-            </th>
-            <th>
-                Is Active
-            </th>
-            {items.map((item) => <TodoItem item={item} />)}
-        </table>
+        <div>
+            <table>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Project name
+                </th>
+                <th>
+                    Author
+                </th>
+                <th>
+                    Text
+                </th>
+                <th>
+                    Created At
+                </th>
+                <th>
+                    Is Active
+                </th>
+                {items.map((item) => <TodoItem item={item} deleteTodo={deleteTodo} />)}
+            </table>
+            <Link to='/todo/create' className="menu_button">Создать</Link>
+        </div>
     )
 }
 
