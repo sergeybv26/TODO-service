@@ -1,7 +1,8 @@
-import React from "react";
+import React from "react"
+import {Link} from "react-router-dom"
 
 
-const ProjectItem = ({item}) => {
+const ProjectItem = ({item, deleteProject}) => {
     return (
         <tr>
             <td>
@@ -16,27 +17,33 @@ const ProjectItem = ({item}) => {
             <td>
                 {item.gitUrl}
             </td>
+            <td>
+                <button type='button' className="btn btn-danger" onClick={() => deleteProject(item.uid)}>Удалить</button>
+            </td>
         </tr>
     )
 }
 
-const ProjectList = ({items}) => {
+const ProjectList = ({items, deleteProject}) => {
     return (
-        <table>
-            <th>
-                ID
-            </th>
-            <th>
-                Name
-            </th>
-            <th>
-                Authors
-            </th>
-            <th>
-                GitURL
-            </th>
-            {items.map((item) => <ProjectItem item={item} />)}
-        </table>
+        <div>
+            <table>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Authors
+                </th>
+                <th>
+                    GitURL
+                </th>
+                {items.map((item) => <ProjectItem item={item} deleteProject={deleteProject} />)}
+            </table>
+            <Link to='/project/create' className="menu_button">Создать</Link>
+        </div>
     )
 }
 
