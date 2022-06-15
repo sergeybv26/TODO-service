@@ -66,7 +66,7 @@ class App extends React.Component {
     }
 
     get_token(username, password) {
-        axios.post('http://127.0.0.1:8000/api/token/', {username: username, password: password})
+        axios.post('http://176.99.11.31:8000/api/token/', {username: username, password: password})
             .then(response => {
                 this.set_token(response.data['access'])
                 this.setState({'username': username})
@@ -75,7 +75,7 @@ class App extends React.Component {
 
     load_data() {
         const headers = this.get_headers()
-        axios.get('http://127.0.0.1:8000/api/users', {headers})
+        axios.get('http://176.99.11.31:8000/api/users', {headers})
             .then(response => {
                 const users = response.data.results
                 this.setState(
@@ -85,7 +85,7 @@ class App extends React.Component {
                 )
             }).catch(error => console.log(error))
 
-        axios.get('http://127.0.0.1:8000/api/projects/', {headers})
+        axios.get('http://176.99.11.31:8000/api/projects/', {headers})
             .then(response => {
                 const projects = response.data.results
                 this.setState(
@@ -95,7 +95,7 @@ class App extends React.Component {
                 )
             }).catch(error => console.log(error))
 
-        axios.get('http://127.0.0.1:8000/api/todo/', {headers})
+        axios.get('http://176.99.11.31:8000/api/todo/', {headers})
             .then(response => {
                 const todo = response.data.results
                 this.setState(
@@ -109,7 +109,7 @@ class App extends React.Component {
     createProject(name, gitUrl, authors) {
         const headers = this.get_headers()
         const data = {name: name, gitUrl: gitUrl, authors: [authors]}
-        axios.post('http://127.0.0.1:8000/api/projects/', data, {headers})
+        axios.post('http://176.99.11.31:8000/api/projects/', data, {headers})
             .then(response => {
                 let newProject = response.data
                 const authors = this.state.users.filter((item) => item.username === newProject.authors[0])[0]
@@ -121,7 +121,7 @@ class App extends React.Component {
     createTodo(project, author, text, isActive) {
         const headers = this.get_headers()
         const data = {project: project, author: author, text: text, isActive: isActive}
-        axios.post('http://127.0.0.1:8000/api/todo/', data, {headers})
+        axios.post('http://176.99.11.31:8000/api/todo/', data, {headers})
             .then(response => {
                 let newTodo = response.data
                 const project = this.state.projects.filter((item) => item.name === newTodo.project)[0]
@@ -134,7 +134,7 @@ class App extends React.Component {
 
     deleteProject(uid) {
         const headers = this.get_headers()
-        axios.delete(`http://127.0.0.1:8000/api/projects/${uid}`, {headers})
+        axios.delete(`http://176.99.11.31:8000/api/projects/${uid}`, {headers})
             .then(response => {
                 this.setState({'projects': this.state.projects.filter((item) => item.uid !== uid)})
             }).catch(error => console.log(error))
@@ -142,7 +142,7 @@ class App extends React.Component {
 
     deleteTodo(uid) {
         const headers = this.get_headers()
-        axios.delete(`http://127.0.0.1:8000/api/todo/${uid}`, {headers})
+        axios.delete(`http://176.99.11.31:8000/api/todo/${uid}`, {headers})
             .then(response => {
                 this.setState({'todo': this.state.todo.filter((item) => item.uid !== uid)})
             }).catch(error => console.log(error))
@@ -150,7 +150,7 @@ class App extends React.Component {
 
     searchProject(name) {
         const headers = this.get_headers()
-        axios.get(`http://127.0.0.1:8000/api/projects/?name=${name}`, {headers})
+        axios.get(`http://176.99.11.31:8000/api/projects/?name=${name}`, {headers})
             .then(response => {
                 const filteredProjects = response.data.results
                 this.setState({'filteredProjects': filteredProjects})
